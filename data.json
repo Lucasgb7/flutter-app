@@ -1,0 +1,12 @@
+{
+    "ilum": {
+        "h1": false,
+        "h2": true,
+        "h3": false
+    },
+    "temperatura": {
+        "t1": 25,
+        "t2": 24,
+        "t3": 20
+    }
+}

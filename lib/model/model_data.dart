@@ -10,4 +10,10 @@ class ModelData {
   var tempT1 = 25.obs;
   var tempT2 = 24.obs;
   var tempT3 = 20.obs;
+
+  // Settings
+  // Temperature Unit -> 1: C / 2: K
+  var tempUnit = 1.obs;
+  // Bar color
+  var barColor = 1.obs;
 }

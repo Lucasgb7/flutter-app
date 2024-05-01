@@ -61,4 +61,21 @@ class ControllerData {
         StateError("Error! Sensor was not found!");
     }
   }
+
+  convertTemp(int tempUnit) {
+    // Check if the value was changed
+    if (tempUnit != model.tempUnit.value) {
+      model.tempUnit.value = tempUnit;
+      // Celsius
+      if (tempUnit == 1) {
+        model.tempT1.value = model.tempT1.value - 273;
+        model.tempT2.value = model.tempT2.value - 273;
+        model.tempT3.value = model.tempT3.value - 273;
+      } else { // Kelvin
+        model.tempT1.value = model.tempT1.value + 273;
+        model.tempT2.value = model.tempT2.value + 273;
+        model.tempT3.value = model.tempT3.value + 273;
+      }
+    }
+  }
 }

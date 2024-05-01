@@ -23,12 +23,10 @@ listenFirebase(String caminho) {
     final data = event.snapshot.value as Map;
     // Get values for ilum
     data['ilum'].forEach((key, value) {
-      print("Key: $key, Value: $value");
       dataController.updateIlum(key.toString(), value);
     });
     // Get values for temperatura
     data['temperatura'].forEach((key, value) {
-      print("Key: $key, Value: $value");
       dataController.changeTemp(key.toString(), value);
     });
   });

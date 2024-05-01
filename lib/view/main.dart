@@ -1,5 +1,8 @@
+import 'package:dwm2/model/model_data.dart';
+import 'package:dwm2/controller/controller_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:dwm2/view/firebase_helper.dart';
 import 'package:dwm2/view/firebase_options.dart';
@@ -19,6 +22,9 @@ class Tela1 extends StatelessWidget {
   const Tela1({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.put(ModelData());
+    Get.put(ControllerData());
+    var dataController = Get.find<ControllerData>();
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
@@ -26,7 +32,10 @@ class Tela1 extends StatelessWidget {
       ),
       body: Center(
         child: Column(children: [
-          const Text('Tela'),
+          const Text('Iluminação'),
+          Obx(() => SwitchLight(icon: Icons.pentagon, label: "Laboratório", state: dataController.model.ilumH1.value, h: "h1")),
+          Obx(() => SwitchLight(icon: Icons.chair_outlined, label: "Escritório", state: dataController.model.ilumH2.value, h: "h2")),
+          Obx(() => SwitchLight(icon: Icons.house, label: "Recepção", state: dataController.model.ilumH3.value, h: "h3")),
           ElevatedButton(
               onPressed: () {
                 logout();
@@ -37,6 +46,37 @@ class Tela1 extends StatelessWidget {
     ));
   }
 }
+
+class SwitchLight extends StatelessWidget {
+  
+  SwitchLight({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.state,
+    required this.h
+  });
+  
+  final IconData icon;
+  final String label;
+  final bool state;
+  final String h;
+  
+  var dataController = Get.find<ControllerData>();
+
+  @override
+  Widget build(BuildContext context){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon),
+        Text(label),
+        Switch(value: state, onChanged: (_) => dataController.toggleIlum(h))
+      ],
+    );
+  }
+}
+
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -77,7 +117,7 @@ class Login extends StatelessWidget {
                       login(email.text, senha.text);
                     },
                     child: Text(
-                      "Cadastrar",
+                      "Entrar",
                       style: estilo,
                     ))),
           ),

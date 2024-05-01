@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../model/model_data.dart';
+import '../controller/controller_data.dart';
 
 resetPassword({required String email}) async {
   try {
@@ -14,14 +15,22 @@ resetPassword({required String email}) async {
 }
 
 listenFirebase(String caminho) {
-  var appData = Get.find<ModelData>;
+  Get.put(ControllerData());
+  var dataController = Get.find<ControllerData>();
 
   final ref = FirebaseDatabase.instance.ref(caminho);
   ref.onValue.listen((DatabaseEvent event) {
     final data = event.snapshot.value as Map;
-    print("caminho: " + caminho);
-    print(data.runtimeType);
-    print(data);
+    // Get values for ilum
+    data['ilum'].forEach((key, value) {
+      print("Key: $key, Value: $value");
+      dataController.updateIlum(key.toString(), value);
+    });
+    // Get values for temperatura
+    data['temperatura'].forEach((key, value) {
+      print("Key: $key, Value: $value");
+      dataController.changeTemp(key.toString(), value);
+    });
   });
 
   //print(d.nivel1!);
@@ -31,10 +40,8 @@ statusLogin() async {
   FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user == null) {
       Get.toNamed('/');
-      print('User connected!');
     } else {
       Get.toNamed('/tela1');
-      print('User disconnected!');
     }
   });
   await listenFirebase("/");
@@ -96,7 +103,6 @@ setFirebase(String caminho, String nome, var valor) async {
 updateFirebase(String caminho, String nome, var valor) async {
   //final database = FirebaseDatabase.instance.ref();
   DatabaseReference ref = FirebaseDatabase.instance.ref(caminho);
-
   await ref.update({
     nome: valor,
   });

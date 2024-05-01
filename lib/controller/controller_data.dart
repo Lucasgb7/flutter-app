@@ -1,38 +1,60 @@
 import 'package:dwm2/model/model_data.dart';
+import 'package:dwm2/view/firebase_helper.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class ControllerData {
   var model = ModelData();
 
-  toggleIlum(int h) {
-    if (h == 1) {
-      // Trigger 1st light
-      print('Trigger 1st light');
-    } else if (h == 2) {
-      // Trigger 2nd light
-      print('Trigger 2nd light');
-    } else if (h == 3) {
-      // Trigger 3rd light
-      print('Trigger 3rd light');
-    } else {
-      // Return nothing
-      print('No light provided!');
+  updateIlum(String h, bool value){
+    switch (h) {
+      case 'h1':
+        model.ilumH1.value = value;
+        break;
+      case 'h2':
+        model.ilumH2.value = value;
+        break;
+      case 'h3':
+        model.ilumH3.value = value;
+        break;
+
+      default:
+        StateError("Error! Ligth was not found!");
     }
   }
 
-  changeTemp(int t, int value) {
+  toggleIlum(String h) {
+    switch (h) {
+      case 'h1':
+        model.ilumH1.value = (model.ilumH1.value ? false : true);
+        updateFirebase('/ilum', 'h1', model.ilumH1.value);
+        break;
+      case 'h2':
+        model.ilumH2.value = (model.ilumH2.value ? false : true);
+        updateFirebase('/ilum', 'h2', model.ilumH2.value);
+        break;
+      case 'h3':
+        model.ilumH3.value = (model.ilumH3.value ? false : true);
+        updateFirebase('/ilum', 'h3', model.ilumH3.value);
+        break;
+
+      default:
+        StateError("Error! Ligth was not found!");
+    }
+  }
+
+  changeTemp(String t, int value) {
     switch (t) {
       // Sensor 1
-      case 1:
-        model.tempT1 = value as RxInt;
+      case 't1':
+        model.tempT1.value = value;
         break;
       // Sensor 2
-      case 2:
-        model.tempT2 = value as RxInt;
+      case 't2':
+        model.tempT2.value = value;
         break;
       // Sensor 3
-      case 3:
-        model.tempT3 = value as RxInt;
+      case 't3':
+        model.tempT3.value = value;
         break;
 
       default:

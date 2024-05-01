@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1042959458689",
+    "firebase_url": "https://dwm-atividade2-default-rtdb.firebaseio.com",
+    "project_id": "dwm-atividade2",
+    "storage_bucket": "dwm-atividade2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042959458689:android:c2749404f5e51bc1c2c880",
+        "android_client_info": {
+          "package_name": "com.example.dwm2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042959458689-drap4mbrnuq7o6to5biv46j34iu9fim8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3Fzu8bYtjv6lDIZjWdef6GsxRQxxjyII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042959458689-drap4mbrnuq7o6to5biv46j34iu9fim8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

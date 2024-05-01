@@ -39,7 +39,7 @@ class Tela1 extends StatelessWidget {
         ListTile(
             onTap: () {
               Get.toNamed('/tela1');
-            },// Use o Get.toNamed para ir para alguma página
+            }, // Use o Get.toNamed para ir para alguma página
             title: const Row(
               children: [
                 Icon(Icons.light),
@@ -62,11 +62,15 @@ class Tela1 extends StatelessWidget {
             ))
       ])),
       appBar: AppBar(
-        title: const Text('Iluminação'),
-      ),
+                title: const Text("Dispositivos IOT",
+                    style: TextStyle(color: Colors.white)),
+                backgroundColor: dataController.model.projectTheme.value),
       body: Center(
         child: Column(children: [
-          const Text('Iluminação', style: TextStyle(color: Colors.blue, fontSize: 20),),
+          const Text(
+            'Iluminação',
+            style: TextStyle(color: Colors.blue, fontSize: 20),
+          ),
           Obx(() => SwitchLight(
               icon: Icons.pentagon,
               label: "Laboratório",
@@ -113,7 +117,7 @@ class Tela2 extends StatelessWidget {
         ListTile(
             onTap: () {
               Get.toNamed('/tela1');
-            },// Use o Get.toNamed para ir para alguma página
+            }, // Use o Get.toNamed para ir para alguma página
             title: const Row(
               children: [
                 Icon(Icons.light),
@@ -136,14 +140,24 @@ class Tela2 extends StatelessWidget {
             ))
       ])),
       appBar: AppBar(
-        title: const Text('Temperatura'),
-      ),
+          title: const Text("Dispositivos IOT",
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: dataController.model.projectTheme.value),
       body: Center(
         child: Column(children: [
-          const Text('Temperatura', style: TextStyle(color: Colors.blue, fontSize: 20),),
-          Obx(() => TextTemp(label: "Laboratório", temp: dataController.model.tempT1.value.toString())),
-          Obx(() => TextTemp(label: "Escritório", temp: dataController.model.tempT2.value.toString())),
-          Obx(() => TextTemp(label: "Recepção", temp: dataController.model.tempT3.value.toString())),
+          const Text(
+            'Temperatura',
+            style: TextStyle(color: Colors.blue, fontSize: 20),
+          ),
+          Obx(() => TextTemp(
+              label: "Laboratório:",
+              temp: dataController.model.tempT1.value.toString())),
+          Obx(() => TextTemp(
+              label: "Escritório:",
+              temp: dataController.model.tempT2.value.toString())),
+          Obx(() => TextTemp(
+              label: "Recepção:",
+              temp: dataController.model.tempT3.value.toString())),
           ElevatedButton(
               onPressed: () {
                 logout();
@@ -175,7 +189,7 @@ class Tela3 extends StatelessWidget {
         ListTile(
             onTap: () {
               Get.toNamed('/tela1');
-            },// Use o Get.toNamed para ir para alguma página
+            }, // Use o Get.toNamed para ir para alguma página
             title: const Row(
               children: [
                 Icon(Icons.light),
@@ -198,19 +212,43 @@ class Tela3 extends StatelessWidget {
             ))
       ])),
       appBar: AppBar(
-        title: const Text('Configurações', style: TextStyle(color: Colors.blue, fontSize: 20),),
-      ),
+          title: const Text("Dispositivos IOT",
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: dataController.model.projectTheme.value),
       body: Center(
         child: Column(children: [
-          const Text('Iluminação'),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text("Unidade: "),
-            DropdownButton(value: dataController.model.tempUnit.value, items: const [DropdownMenuItem(value: 1, child: Text("ºC")), DropdownMenuItem(value: 2, child: Text("K"))], onChanged: (value) => dataController.convertTemp(value!))
-          ],),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text("Cor da barra: "),
-            DropdownButton(value: dataController.model.barColor.value, items: const [DropdownMenuItem(value: 1, child: Text("Azul")), DropdownMenuItem(value: 2, child: Text("Verde")), DropdownMenuItem(value: 3, child: Text("Vermelho"))], onChanged: (value) => dataController.convertTemp(value!))
-          ],),
+          const Text(
+            'Iluminação',
+            style: TextStyle(color: Colors.blue, fontSize: 20),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Unidade: "),
+              DropdownButton(
+                  value: dataController.model.tempUnit.value,
+                  items: const [
+                    DropdownMenuItem(value: 1, child: Text("ºC")),
+                    DropdownMenuItem(value: 2, child: Text("K"))
+                  ],
+                  onChanged: (value) => dataController.convertTemp(value!))
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Cor da barra: "),
+              DropdownButton(
+                  value: dataController.model.projectTheme.value,
+                  items: const [
+                    DropdownMenuItem(value: Colors.blue, child: Text("Azul")),
+                    DropdownMenuItem(value: Colors.green, child: Text("Verde")),
+                    DropdownMenuItem(value: Colors.red, child: Text("Vermelho"))
+                  ],
+                  onChanged: (value) =>
+                      dataController.model.projectTheme.value = value!)
+            ],
+          ),
           ElevatedButton(
               onPressed: () {
                 logout();
@@ -223,24 +261,22 @@ class Tela3 extends StatelessWidget {
 }
 
 class SwitchLight extends StatelessWidget {
-  
-  SwitchLight({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.state,
-    required this.h
-  });
-  
+  SwitchLight(
+      {super.key,
+      required this.icon,
+      required this.label,
+      required this.state,
+      required this.h});
+
   final IconData icon;
   final String label;
   final bool state;
   final String h;
-  
+
   var dataController = Get.find<ControllerData>();
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -253,25 +289,21 @@ class SwitchLight extends StatelessWidget {
 }
 
 class TextTemp extends StatelessWidget {
-  TextTemp({
-    super.key,
-    required this.label,
-    required this.temp
-  });
-  
+  TextTemp({super.key, required this.label, required this.temp});
+
   final String label;
   final String temp;
-  
   var dataController = Get.find<ControllerData>();
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
+    var tempUnit = dataController.model.tempUnit.value == 1 ? "ºC" : "K";
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Icon(Icons.thermostat),
         Text(label),
-        Text(" $temp ºC")
+        Text(" $temp $tempUnit")
       ],
     );
   }

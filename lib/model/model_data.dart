@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Default data
@@ -14,6 +15,5 @@ class ModelData {
   // Settings
   // Temperature Unit -> 1: C / 2: K
   var tempUnit = 1.obs;
-  // Bar color
-  var barColor = 1.obs;
+  var projectTheme = Colors.blue.obs;
 }

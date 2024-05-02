@@ -1,6 +1,5 @@
 import 'package:dwm2/model/model_data.dart';
 import 'package:dwm2/view/firebase_helper.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class ControllerData {
   var model = ModelData();

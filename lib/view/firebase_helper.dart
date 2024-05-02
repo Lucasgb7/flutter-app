@@ -2,8 +2,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import '../model/model_data.dart';
 import '../controller/controller_data.dart';
 
 resetPassword({required String email}) async {
@@ -54,7 +52,7 @@ login(String email, String senha) async {
     final credential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: senha);
     print("Logado");
-    Get.snackbar("Mensagem", "Sucesso");
+    Get.snackbar("Mensagem", "Login efetuado com sucesso!");
     //print(credential.user.email.toString());
   } on FirebaseAuthException catch (e) {
     //print(e);
@@ -76,6 +74,7 @@ criarConta(String email, String senha) async {
       email: email,
       password: senha,
     );
+    Get.snackbar("Mensagem", "Conta criada com sucesso!");
     print("Conta criada com sucesso");
   } on FirebaseAuthException catch (e) {
     print(e.code);

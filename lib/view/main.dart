@@ -1,3 +1,4 @@
+// ignore_for_file: must_be_immutable
 import 'package:dwm2/model/model_data.dart';
 import 'package:dwm2/controller/controller_data.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +14,7 @@ void main() async {
   runApp(GetMaterialApp(getPages: [
     GetPage(name: '/', page: () => Login()),
     GetPage(name: '/cadastro', page: () => Cadastro()),
+    GetPage(name: '/recuperarSenha', page: () => ResetPassword()),
     GetPage(name: '/tela1', page: () => const Tela1()),
     GetPage(name: '/tela2', page: () => const Tela2()),
     GetPage(name: '/tela3', page: () => const Tela3()),
@@ -30,88 +32,12 @@ class Tela1 extends StatelessWidget {
         home: Scaffold(
       drawer: Drawer(
           child: ListView(children: [
-        const UserAccountsDrawerHeader(
-            accountName: Text("PUC-MG"),
-            accountEmail: Text("Lucas Jose da Cunha"),
-            currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://cdn.cookielaw.org/logos/2182e5b0-78dc-4d97-a438-fb223b451736/842ea97a-a8f2-46e9-982c-eba6d612165c/677304d5-c81f-4506-976e-ab32a31ec753/logoPucMinas.png'))),
-        ListTile(
-            onTap: () {
-              Get.toNamed('/tela1');
-            }, // Use o Get.toNamed para ir para alguma página
-            title: const Row(
-              children: [
-                Icon(Icons.light),
-                Text("  Iluminação"),
-              ],
-            )),
-        ListTile(
-            onTap: () {
-              Get.toNamed('/tela2');
-            }, // Use o Get.toNamed para ir para alguma página
-            title: const Row(
-              children: [Icon(Icons.thermostat), Text("  Temperatura")],
-            )),
-        ListTile(
-            onTap: () {
-              Get.toNamed('/tela3');
-            }, // Use o Get.toNamed para ir para alguma página
-            title: const Row(
-              children: [Icon(Icons.settings), Text("  Configurações")],
-            ))
-      ])),
-      appBar: AppBar(
-                title: const Text("Dispositivos IOT",
-                    style: TextStyle(color: Colors.white)),
-                backgroundColor: dataController.model.projectTheme.value),
-      body: Center(
-        child: Column(children: [
-          const Text(
-            'Iluminação',
-            style: TextStyle(color: Colors.blue, fontSize: 20),
-          ),
-          Obx(() => SwitchLight(
-              icon: Icons.pentagon,
-              label: "Laboratório",
-              state: dataController.model.ilumH1.value,
-              h: "h1")),
-          Obx(() => SwitchLight(
-              icon: Icons.chair_outlined,
-              label: "Escritório",
-              state: dataController.model.ilumH2.value,
-              h: "h2")),
-          Obx(() => SwitchLight(
-              icon: Icons.house,
-              label: "Recepção",
-              state: dataController.model.ilumH3.value,
-              h: "h3")),
-          ElevatedButton(
-              onPressed: () {
-                logout();
-              },
-              child: const Text("Sair"))
-        ]),
-      ),
-    ));
-  }
-}
-
-class Tela2 extends StatelessWidget {
-  const Tela2({super.key});
-  @override
-  Widget build(BuildContext context) {
-    Get.put(ModelData());
-    Get.put(ControllerData());
-    var dataController = Get.find<ControllerData>();
-    return MaterialApp(
-        home: Scaffold(
-      drawer: Drawer(
-          child: ListView(children: [
-        const UserAccountsDrawerHeader(
-            accountName: Text("PUC-MG"),
-            accountEmail: Text("Lucas Jose da Cunha"),
-            currentAccountPicture: CircleAvatar(
+        UserAccountsDrawerHeader(
+            decoration:
+                BoxDecoration(color: dataController.model.projectTheme.value),
+            accountName: const Text("PUC-MG"),
+            accountEmail: const Text("Lucas Jose da Cunha"),
+            currentAccountPicture: const CircleAvatar(
                 backgroundImage: NetworkImage(
                     'https://cdn.cookielaw.org/logos/2182e5b0-78dc-4d97-a438-fb223b451736/842ea97a-a8f2-46e9-982c-eba6d612165c/677304d5-c81f-4506-976e-ab32a31ec753/logoPucMinas.png'))),
         ListTile(
@@ -145,9 +71,92 @@ class Tela2 extends StatelessWidget {
           backgroundColor: dataController.model.projectTheme.value),
       body: Center(
         child: Column(children: [
-          const Text(
+          Text(
+            'Iluminação',
+            style: TextStyle(
+                color: dataController.model.projectTheme.value, fontSize: 20),
+          ),
+          Obx(() => SwitchLight(
+              icon: Icons.pentagon,
+              label: "Laboratório",
+              state: dataController.model.ilumH1.value,
+              h: "h1")),
+          Obx(() => SwitchLight(
+              icon: Icons.chair_outlined,
+              label: "Escritório",
+              state: dataController.model.ilumH2.value,
+              h: "h2")),
+          Obx(() => SwitchLight(
+              icon: Icons.house,
+              label: "Recepção",
+              state: dataController.model.ilumH3.value,
+              h: "h3")),
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+              onPressed: () {
+                logout();
+              },
+              child: const Text("Sair"))
+        ]),
+      ),
+    ));
+  }
+}
+
+class Tela2 extends StatelessWidget {
+  const Tela2({super.key});
+  @override
+  Widget build(BuildContext context) {
+    Get.put(ModelData());
+    Get.put(ControllerData());
+    var dataController = Get.find<ControllerData>();
+    return MaterialApp(
+        home: Scaffold(
+      drawer: Drawer(
+          child: ListView(children: [
+        UserAccountsDrawerHeader(
+            decoration:
+                BoxDecoration(color: dataController.model.projectTheme.value),
+            accountName: const Text("PUC-MG"),
+            accountEmail: const Text("Lucas Jose da Cunha"),
+            currentAccountPicture: const CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://cdn.cookielaw.org/logos/2182e5b0-78dc-4d97-a438-fb223b451736/842ea97a-a8f2-46e9-982c-eba6d612165c/677304d5-c81f-4506-976e-ab32a31ec753/logoPucMinas.png'))),
+        ListTile(
+            onTap: () {
+              Get.toNamed('/tela1');
+            }, // Use o Get.toNamed para ir para alguma página
+            title: const Row(
+              children: [
+                Icon(Icons.light),
+                Text("  Iluminação"),
+              ],
+            )),
+        ListTile(
+            onTap: () {
+              Get.toNamed('/tela2');
+            }, // Use o Get.toNamed para ir para alguma página
+            title: const Row(
+              children: [Icon(Icons.thermostat), Text("  Temperatura")],
+            )),
+        ListTile(
+            onTap: () {
+              Get.toNamed('/tela3');
+            }, // Use o Get.toNamed para ir para alguma página
+            title: const Row(
+              children: [Icon(Icons.settings), Text("  Configurações")],
+            ))
+      ])),
+      appBar: AppBar(
+          title: const Text("Dispositivos IOT",
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: dataController.model.projectTheme.value),
+      body: Center(
+        child: Column(children: [
+          Text(
             'Temperatura',
-            style: TextStyle(color: Colors.blue, fontSize: 20),
+            style: TextStyle(
+                color: dataController.model.projectTheme.value, fontSize: 20),
           ),
           Obx(() => TextTemp(
               label: "Laboratório:",
@@ -180,10 +189,12 @@ class Tela3 extends StatelessWidget {
         home: Scaffold(
       drawer: Drawer(
           child: ListView(children: [
-        const UserAccountsDrawerHeader(
-            accountName: Text("PUC-MG"),
-            accountEmail: Text("Lucas Jose da Cunha"),
-            currentAccountPicture: CircleAvatar(
+        UserAccountsDrawerHeader(
+            decoration:
+                BoxDecoration(color: dataController.model.projectTheme.value),
+            accountName: const Text("PUC-MG"),
+            accountEmail: const Text("Lucas Jose da Cunha"),
+            currentAccountPicture: const CircleAvatar(
                 backgroundImage: NetworkImage(
                     'https://cdn.cookielaw.org/logos/2182e5b0-78dc-4d97-a438-fb223b451736/842ea97a-a8f2-46e9-982c-eba6d612165c/677304d5-c81f-4506-976e-ab32a31ec753/logoPucMinas.png'))),
         ListTile(
@@ -217,9 +228,10 @@ class Tela3 extends StatelessWidget {
           backgroundColor: dataController.model.projectTheme.value),
       body: Center(
         child: Column(children: [
-          const Text(
+          Text(
             'Iluminação',
-            style: TextStyle(color: Colors.blue, fontSize: 20),
+            style: TextStyle(
+                color: dataController.model.projectTheme.value, fontSize: 20),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -282,7 +294,10 @@ class SwitchLight extends StatelessWidget {
       children: [
         Icon(icon),
         Text(label),
-        Switch(value: state, onChanged: (_) => dataController.toggleIlum(h))
+        Switch(
+            value: state,
+            onChanged: (_) => dataController.toggleIlum(h),
+            activeColor: dataController.model.projectTheme.value)
       ],
     );
   }
@@ -322,11 +337,16 @@ class Login extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        backgroundColor: Colors.blue,
+        title: const Text('PUC-MG - Login'),
       ),
       body: Center(
         child: Column(children: [
           const SizedBox(height: 20),
+          const Image(
+              alignment: Alignment.center,
+              image: NetworkImage(
+                  "https://cdn-icons-png.freepik.com/256/1077/1077114.png")),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextField(
@@ -342,27 +362,32 @@ class Login extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: SizedBox(
-                //width: double.infinity,
+                width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                     onPressed: () {
                       login(email.text, senha.text);
                     },
-                    child: Text(
-                      "Entrar",
-                      style: estilo,
-                    ))),
+                    child: const Text("Entrar"))),
           ),
-          OutlinedButton(
-              onPressed: () {
-                Get.toNamed('/cadastro');
-              },
-              child: const Text("Criar conta")),
-          OutlinedButton(
-              onPressed: () {
-                resetPassword(email: email.text);
-              },
-              child: const Text("Esqueci a senha"))
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            OutlinedButton(
+                onPressed: () {
+                  Get.toNamed('/cadastro');
+                },
+                child: const Text("Criar conta",
+                    style: TextStyle(
+                        color: Colors.blue, backgroundColor: Colors.white))),
+            OutlinedButton(
+                onPressed: () {
+                  Get.toNamed("/recuperarSenha");
+                },
+                child: const Text("Esqueci a senha",
+                    style: TextStyle(
+                        color: Colors.blue, backgroundColor: Colors.white)))
+          ])
         ]),
       ),
     ));
@@ -372,7 +397,7 @@ class Login extends StatelessWidget {
 class Cadastro extends StatelessWidget {
   Cadastro({super.key});
 
-  var estilo = const TextStyle(fontSize: 24);
+  var estilo = const TextStyle(fontSize: 20);
   var email = TextEditingController();
   var senha = TextEditingController();
 
@@ -381,6 +406,7 @@ class Cadastro extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: Row(
           children: [
             IconButton(
@@ -412,11 +438,67 @@ class Cadastro extends StatelessWidget {
             child: SizedBox(
                 height: 50,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                     onPressed: () {
                       criarConta(email.text, senha.text);
+                      Get.toNamed('/');
                     },
                     child: Text(
-                      "Entrar",
+                      "Criar conta",
+                      style: estilo,
+                    ))),
+          ),
+        ]),
+      ),
+    ));
+  }
+}
+
+class ResetPassword extends StatelessWidget {
+  ResetPassword({super.key});
+
+  var estilo = const TextStyle(fontSize: 20);
+  var email = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(Icons.back_hand)),
+            const Text('Recuperar senha'),
+          ],
+        ),
+      ),
+      body: Center(
+        child: Column(children: [
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+                decoration: const InputDecoration(labelText: "E-mail"),
+                controller: email),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SizedBox(
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                    onPressed: () {
+                      resetPassword(email: email.text);
+                      Get.snackbar("Aviso", "E-mail de recuperação enviado!");
+                      Get.toNamed('/');
+                    },
+                    child: Text(
+                      "Enviar e-mail",
                       style: estilo,
                     ))),
           ),
